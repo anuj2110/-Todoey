@@ -1,29 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 
-
-class AddTaskScreen extends StatefulWidget {
-
-  final Function addTaskCallBack;
-  AddTaskScreen({this.addTaskCallBack});
-
-  @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
-}
-
-class _AddTaskScreenState extends State<AddTaskScreen> {
-
+class AddTaskScreen extends StatelessWidget {
   final myController = TextEditingController();
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    myController.dispose();
-    super.dispose();
-  }
-  @override
   Widget build(BuildContext context) {
-    String newTaskTitle;
-
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -31,7 +14,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -50,11 +33,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               controller: myController,
               autofocus: true,
               textAlign: TextAlign.center,
-              onChanged: (newText) {
-                setState(() {
-                  newTaskTitle = newText;
-                });
-              },
+              onChanged: (newText) {},
             ),
             FlatButton(
               child: Text(
@@ -65,8 +44,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-               print(myController.text);
-               widget.addTaskCallBack(myController.text);
+                print(myController.text);
+                Provider.of<TaskData>(context, listen: false)
+                    .addItem(myController.text);
+                Navigator.pop(context);
               },
             ),
           ],

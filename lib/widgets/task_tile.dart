@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 class TaskTile extends StatelessWidget {
 
   final bool isChecked;
   final String taskTile;
   final Function checkBoxCallBack;
-  TaskTile({this.taskTile,this.isChecked,this.checkBoxCallBack});
+  final int index;
+  TaskTile({this.taskTile,this.isChecked,this.checkBoxCallBack,this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,10 @@ class TaskTile extends StatelessWidget {
       value: isChecked,
       onChanged: checkBoxCallBack,
       ),
+      onLongPress: (){
+        Provider.of<TaskData>(context,listen: false).removeTask(index);
+        
+      },
     );
   }
 }
